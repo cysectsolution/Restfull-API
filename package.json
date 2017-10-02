@@ -10,7 +10,7 @@
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
-    "express": "~4.15.2",
+    "express": "^4.15.5",
     "jade": "~1.11.0",
     "mongoose": "^4.11.14",
     "morgan": "~1.8.1",
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/Denniskamau/Restfull-API/issues"
   },
-  "homepage": "https://github.com/Denniskamau/Restfull-API#readme"
+  "homepage": "https://github.com/Denniskamau/Restfull-API#readme",
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
