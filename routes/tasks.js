@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-//var db = mongojs('');
+var db = mongojs('mongodb://cysectsolution:cysect123456seven@ds039404.mlab.com:39404/javascript');
 
 //Get all tasks
 router.get('/tasks', function(req, res, next){
