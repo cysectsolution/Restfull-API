@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
+//added the tasks route
+var tasks = require('./routes/tasks');
 
 var port = 3000;
 var app = express();
@@ -23,6 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+//the tasks route
+app.use('/api', tasks);
 
 
 // catch 404 and forward to error handler
