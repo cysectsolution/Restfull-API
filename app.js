@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 //the tasks route
-app.use('/api', tasks);
+app.use('/api/tasks', tasks);
 
 
 // catch 404 and forward to error handler
