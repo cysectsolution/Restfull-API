@@ -1,13 +1,25 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient
-, Server = require('mongodb').Server;
-var db = new MongoClient(new Server('mongodb://cysectsolution:cysect123456seven@ds149382.mlab.com:49382/eazytoi',['tasks']));
+var mongojs = require('mongojs');
+var mongoose = require('mongoose');
 
+var Task = require('../models/vintage');
 
+//var config = require('../configs/database')
+//db=mongoose.connect(config.database);
 //Get all tasks
+var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
+replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } }; 
+
+var mongodbUri = 'mongodb://cysectsolution:cysect123456seven@ds039404.mlab.com:39404/javascript';
+
+mongoose.connect(mongodbUri, options);
+var db = mongoose.connection; 
+
+db.on('error', console.error.bind(console, 'connection error:'));  
+
 router.get('/tasks', function(req, res, next){
-    db.tasks.find(function(err,tasks){
+    db.find(function(err,tasks){
         if(err){
             res.send(err);
         }
@@ -17,7 +29,7 @@ router.get('/tasks', function(req, res, next){
 
 //Get single task
 router.get('/tasks/:id', function(req, res, next){
-    db.tasks.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err,task){
+    db.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err,task){
         if(err){
             res.send(err);
         }
@@ -34,7 +46,7 @@ router.post('/task', function(req,res,next){
              "error": "Data is not valid"
          });
      }else {
-         db.tasks.save(task,function(err, task){
+         db.save(task,function(err, task){
             if (err){
                 res.send(err);
             }
@@ -45,7 +57,7 @@ router.post('/task', function(req,res,next){
 
 //Delete a task
 router.delete('task/:id', function(req,res,next){
-    db.task.remove({_id:mongojs.ObjectId(req.params.id)}, function(err, task){
+    db.remove({_id:mongojs.ObjectId(req.params.id)}, function(err, task){
         if(err){
             res.send(err);
         }
@@ -71,7 +83,7 @@ router.put('/task/:id', function(req,res,next){
             "error" : "Bad Data"
         });
     }else {
-        db.tasks.update({_id: mongojs.ObjectId(req.params.id)}, upTask, {}, function(err,task){
+        db.update({_id: mongojs.ObjectId(req.params.id)}, upTask, {}, function(err,task){
             if(err){
                 res.send(err);
             }
