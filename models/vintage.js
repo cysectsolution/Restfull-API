@@ -5,39 +5,38 @@ var mongoose = require('mongoose');
 var config = require('../configs/database');
 
 
-//mongoose.connect(config.datasase);
-var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
-replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } }; 
 
-var mongodbUri = 'mongodb://cysectsolution:cysect123456seven@ds039404.mlab.com:39404/javascript';
 
-mongoose.connect(mongodbUri, options);
-var db = mongoose.connection;
 
 
 var Schema = mongoose.Schema;
 
 //model of how the collection will look like
-var TaskSchema = new Schema({
+var VintageSchema = new Schema({
     name: {
         type: String,
         required: true
     },
-    Created_date: {
+    created_date: {
         type: Date,
-        default: Date.now
+        
     },
     status: {
-        type: [{
-            type: String,
-            enum: ['pending', 'ongoing', 'completed']
-        }],
-        default: ['pending']
+        type: String,
+            
     }
 });
 
-const Task = module.exports = mongoose.model('Tasks', TaskSchema);
+const Vintage    = module.exports = mongoose.model('Vintage', VintageSchema);
 
+module.exports.addpost =function(vintage,cb){
+    vintage.save(cb);
+}
+module.exports.getVintageById= function(id,cb){
+    
+    Vintage.findById(id,cb);
 
-
-
+}
+module.exports.getVintage = function(vintage,cb){
+    Vintage.find();
+}
