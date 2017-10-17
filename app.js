@@ -4,10 +4,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var config= require('./configs/database');
+
 
 var index = require('./routes/index');
 //added the tasks route
-var tasks = require('./routes/tasks');
+var vintage = require('./routes/vintage');
+
+//db connection
+mongoose.connect(config.database);
+
+//on connection
+mongoose.connection.on('connected',function(){
+    console.log('Connected to database'+config.database);
+});
+
+//error connection
+mongoose.connection.on('error',function(err){
+    console.log('database error'+err);
+});
+
 
 var port = 3000;
 var app = express();
@@ -26,10 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 //the tasks route
-app.use('/api/tasks', tasks);
-
-
-// catch 404 and forward to error handler
+app.use('/api/v1/vintage', vintage);// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
